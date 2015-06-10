@@ -1,0 +1,101 @@
+算法中主要函数简介：
+unsigned char* fusioning(unsigned char* pImagePixels_R,unsigned char* pImagePixels_G,unsigned char* pImagePixels_B,UINT m_width,UINT m_height,UINT point_x,UINT point_y,UINT R,float Gain_R,float Gain_B );
+函数功能描述: 将三个通道的图像合成为彩图
+参数: pImagePixels_R：R通道图像
+      pImagePixels_G：G通道图像
+      pImagePixels_B：B通道图像
+      m_width:图像宽度
+      m_height:图像高度
+      point_x ：图像显示区域圆的中心点横坐标
+      point_y：图像显示区域圆的中心点纵坐标
+      R：图像显示区域圆的半径
+      Gain_R：R通道增益
+      Gain_B:B通道增益
+返回: 合成图像
+
+void PerprocessImage(unsigned char *qimg_R, int iWidth, int iHeight, int point_x, int point_y, double circle_r, BGRbmp bgr);
+函数功能描述: 单通道图像预处理，先对图像进行直方图均衡化，提高图像的对比度，再对图像进行高斯滤波，降低图像噪声
+参数: qimg_R：输入图像
+iWidth：图像宽度
+iHeight:图像高度
+point_x:图像显示区域圆的中心点横坐标
+point_y：图像显示区域圆的中心点纵坐标
+circle_r：图像显示区域圆的半径
+bgr 图像存储偏移值
+返回: 无
+
+void CLAHE (unsigned char* pImage,unsigned char* qImage,unsigned int uiXRes, unsigned int uiYRes,unsigned int origin_X, unsigned int origin_Y,double  Circle_R,float fCliplimit);
+函数功能描述:限制对比度自适应直方图均衡化，通过计算图像的局部直方图，然后重新分布亮度来来改变图像对比度，改进图像的局部对比度以及获得更多的图像细节。
+参数：pImage：输入图像
+      qImage:输出图像
+      uiXRes:图像的宽度
+      uiYRes：图像的高度
+      origin_X：图像显示区域圆的中心点横坐标
+      origin_Y：图像显示区域圆的中心点纵坐标
+      Circle_R：图像显示区域圆的半径
+      fCliplimit：对比度调节系数
+返回: 无
+
+void MakeLut (unsigned char * pLUT, unsigned char Min, unsigned char Max, unsigned int uiNrBins)	
+函数功能描述:创建灰度映射表，缩小图像灰度范围
+参数: pLUT：灰度映射表
+      Min：最小灰度值
+      Max：最大灰度值
+      uiNrBins:灰度级数
+返回: 无
+
+void MakeHistogram (unsigned char* pImage, unsigned int uiXRes, unsigned int uiSizeX, unsigned int uiSizeY,unsigned long* pulHistogram,   
+                    unsigned int uiNrGreylevels, unsigned char* pLookupTable);
+函数功能描述: 构建区域灰度直方图
+参数: pImage：输入图像
+      uiXRes：图像宽度
+      uiSizeX：局部区域的宽
+      uiSizeY：局部区域的长
+      pulHistogram：局部区域直方图
+      uiNrGreylevels：灰度级数
+      pLookupTable;灰度映射表
+返回: 无
+
+void ClipHistogram (unsigned long* pulHistogram, unsigned int uiNrGreylevels, unsigned long ulClipLimit);
+函数功能描述: 直方图裁剪
+参数: pulHistogram：输入的直方图
+      uiNrGreylevels：灰度级数
+      ulClipLimit：裁剪阈值
+返回: 无
+
+
+void MapHistogram (unsigned long* pulHistogram, unsigned char Min, unsigned char Max,   
+		               unsigned int uiNrGreylevels, unsigned long ulNrOfPixels);
+
+函数功能描述: 计算累计直方图
+参数: pulHistogram;输入直方图
+      Min:灰度最小值
+      Max:灰度最大值
+      uiNrGreylevels：灰度级数
+      ulNrOfPixels：像素个数总和
+返回: 无
+
+void Interpolate (unsigned char * pImage, int uiXRes, unsigned long * pulMapLU,unsigned long * pulMapRU, unsigned long * pulMapLB,  unsigned long * pulMapRB,   
+		   unsigned int uiXSize, unsigned int uiYSize, unsigned char * pLUT); 
+函数功能描述: 双线性插值
+参数: pImage：输入图像
+      uiXRes:图像宽度
+      pulMapLU: 图像左上行灰度直方图映射表
+      pulMapRU：图像右上行灰度直方图映射表
+      pulMapLB：图像左下行灰度直方图映射表
+      pulMapRB：图像右下行灰度直方图映射表
+      uiXSize：局部区域的宽
+      uiYSize：局部区域的高
+      pLUT：灰度映射表
+返回: 无
+
+void gaussianFilter(unsigned char* putimg,unsigned char* outimg,UINT m_width, UINT m_height,UINT point_x,UINT point_y,UINT r,UINT positon);
+函数功能描述: 高斯滤波，去噪
+参数: putimg：输入图像
+      outing：输出图像
+      m_width:图像宽度
+      m_height:图像高度
+      point_x ：图像显示区域圆的中心点横坐标
+      point_y：图像显示区域圆的中心点纵坐标
+      position:图像存储偏移值
+返回: 无
